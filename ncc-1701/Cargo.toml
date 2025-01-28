@@ -1,0 +1,36 @@
+[package]
+name = "ncc-1701"
+version = "0.1.0"
+authors = ["Quartz68 <wangzimeng2004@gmail.com>"]
+edition = "2021"
+resolver = "2"
+rust-version = "1.77"
+
+[[bin]]
+name = "ncc-1701"
+harness = false # do not use the built in cargo test harness -> resolve rust-analyzer errors
+
+[profile.release]
+opt-level = "s"
+
+[profile.dev]
+debug = true    # Symbols are nice and they don't increase the size on Flash
+opt-level = "z"
+
+[features]
+default = []
+
+experimental = ["esp-idf-svc/experimental"]
+
+[dependencies]
+log = "*"
+esp-idf-svc = { version = "*", features = ["critical-section", "embassy-time-driver", "embassy-sync"] }
+esp-idf-sys = { version = "*", features = ["binstart"] }
+esp-idf-hal = "*"
+smart-leds = "*"
+
+ws2812-esp32-rmt-driver = { version = "*", features = ["smart-leds-trait"] }
+
+[build-dependencies]
+embuild = "*"
+anyhow = "1"
